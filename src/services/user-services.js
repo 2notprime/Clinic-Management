@@ -5,9 +5,9 @@ const db = require('../models/index');
 async function checkUserEmail(email) {
     try {
         let user = await db.User.findOne({
-            where: { email: email } 
+            where: { email: email }
         });
-        return user !== null;  
+        return user !== null;
     } catch (e) {
         throw new Error('Error checking email existence: ' + e.message);
     }
@@ -18,11 +18,11 @@ async function handleUserLogin(email, password) {
     try {
         let userData = {};
         let isExist = await checkUserEmail(email);
-        
+
         if (isExist) {
             // Tìm thông tin người dùng với email
             let user = await db.User.findOne({
-                attributes: ['id','email', 'roleId', 'password'],
+                attributes: ['id', 'email', 'roleId', 'password'],
                 where: { email: email },
                 raw: true,
             });
@@ -46,7 +46,7 @@ async function handleUserLogin(email, password) {
                 userData.errMessage = 'User not found';
             }
         } else {
-            userData.errCode = 1;
+            userData.errCode = 4;
             userData.errMessage = `Your email isn't in our system`;
         }
         return userData; // Trả về kết quả

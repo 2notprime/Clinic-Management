@@ -17,8 +17,14 @@ let checkLogin = async (req, res) => {
     }
 
     console.log(userData);
-
-    return res.status(200).json({
+    if (userData.errCode === 0) {
+        return res.status(200).json({
+            errCode: userData.errCode,
+            message: userData.errMessage,
+            user: userData.user ? userData.user : {}
+        })
+    }
+    return res.status(500).json({
         errCode: userData.errCode,
         message: userData.errMessage,
         user: userData.user ? userData.user : {}

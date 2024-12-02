@@ -1,6 +1,8 @@
 const db = require('../models/index');
 const { Error } = require('sequelize');
 
+
+
 let insertBookings = async (doctorId, patientId, date, timeType) => {
     try {
         await db.Booking.create({
@@ -58,6 +60,7 @@ let getBookingsByPatientId = async (patientId) => {
 }
 
 let checkPatientBooking = async (patientId, date, timeType) => {
+
     try {
         let bookings = await db.Booking.findAll({
             raw: true,

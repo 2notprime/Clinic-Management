@@ -43,7 +43,21 @@ function getNextSevenDays() {
 
 
 function doctorIdtoUserId(doctorId) {
-    return doctorId.charAt(3);
+    return parseInt(doctorId.replace('doc', ''));
 }
 
-module.exports = { splitFullName, getNextSevenDays }
+function convertTimeType(time) {
+    const timeSlotMapping = {
+        "07:00 AM - 08:00 AM": "T1",
+        "08:00 AM - 09:00 AM": "T2",
+        "09:00 AM - 10:00 AM": "T3",
+        "10:00 AM - 11:00 AM": "T4",
+        "01:00 PM - 02:00 PM": "T5",
+        "02:00 PM - 03:00 PM": "T6",
+        "03:00 PM - 04:00 PM": "T7",
+        "04:00 PM - 05:00 PM": "T8",
+    };
+    return timeSlotMapping[time];
+}
+
+module.exports = { splitFullName, getNextSevenDays, doctorIdtoUserId, convertTimeType }

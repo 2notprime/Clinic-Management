@@ -35,7 +35,8 @@ let getDoctorCalendarFree = async (userId) => {
     doctorSchedule.forEach(function (item, index) {
 
         let date = item.dataValues.date
-        freeDays[date.toISOString()].push(item.dataValues.timeType)
+        date.setHours(7, 0, 0, 0)
+        if (date.toISOString() in freeDays) freeDays[date.toISOString()].push(item.dataValues.timeType)
     })
 
     for (let date in freeDays) {
