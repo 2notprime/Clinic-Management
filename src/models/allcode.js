@@ -20,12 +20,13 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         valueEn: DataTypes.STRING,
         valueVi: DataTypes.STRING,
-        createAt: DataTypes.DATE,
+        createdAt: DataTypes.DATE,
         updatedAt:DataTypes.DATE
 
     }, {
         sequelize,
         modelName: 'Allcode',
+        tableName: 'allcodes'
     });
     return Allcode;
 };
