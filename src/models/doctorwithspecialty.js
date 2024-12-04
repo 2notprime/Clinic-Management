@@ -16,11 +16,12 @@ module.exports = (sequelize, DataTypes) => {
     DoctorWithSpecialty.init({
         doctorId: DataTypes.INTEGER,
         specialtyId: DataTypes.INTEGER,
-        createAt: DataTypes.DATE,
-        updateAt: DataTypes.DATE
+        createdAt: DataTypes.DATE,
+        updatedAt: DataTypes.DATE
     }, {
         sequelize,
         modelName: 'DoctorWithSpecialty',
+        tableName: 'DoctorWithSpecialty'
     });
     return DoctorWithSpecialty;
 };
