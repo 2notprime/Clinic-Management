@@ -97,6 +97,9 @@ async function updateUserData(data) {
       user.firstName = data.firstName;
       user.lastName = data.lastName;
       user.address = data.address;
+      user.phonenumber = data.phonenumber;
+      user.gender = data.gender;
+
 
       await user.save();
       let allUsers = await db.User.findAll();
