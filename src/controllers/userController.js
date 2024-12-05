@@ -161,6 +161,7 @@ let createUser = async (req, res) => {
     }
 };
 
+
 let getAppointment = async (req,res) => {
     userId = req.body.id;
     try{
@@ -190,7 +191,7 @@ let updateYourImage = async (req,res) => {
     let userId = req.body.id;
     let image = req.body.image;
     try {
-        updateImage(userId,image);
+        await updateImage(userId,image);
         return res.status(200).json({
             errCode: 0,
             message: "OK"
@@ -233,9 +234,59 @@ let getDoctorProfile = async (req,res) => {
         return res.status(404).json({
             errCode: 1,
             message: "Not found info"
+    })
+}
+}
+
+let getMyProfile = async (req, res) => {
+    let userId = req.query.id;
+    let user = await getUserById(userId);
+    delete user.password;
+    if (!user) {
+        return res.status(404).json({
+            errCode: 1,
+            message: 'User not found',
+        })
+    }
+    return res.status(200).json({
+        errCode: 0,
+        message: 'Get user profile successful',
+        user: user ? user : {},
+    })
+}
+
+let updateMyProfile = async (req, res) => {
+    let userId = req.body.id;
+    let userData = req.body.userData
+    let nameParts = userData.name.split(" ");
+
+    let firstName = nameParts[0];
+    let lastName = nameParts.slice(1).join(" ");
+
+    let data = {
+        id: userId,
+        firstName: firstName,
+        lastName: lastName,
+        address: userData.address,
+        phonenumber: userData.phone,
+        gender: userData.gender === "Male" ? 0 : 1,
+    }
+    let allUsers = await updateUserData(data);
+    if (allUsers[0]) {
+        return res.status(200).json({
+            errCode: 0,
+            message: 'update successful'
+        })
+    }
+    else {
+        return res.status(404).json({
+            errCode: 1,
+            message: 'cannot update'
+
         })
     }
 }
+
 
 let getDoctor = async (req,res)=>{
     try {
@@ -254,4 +305,5 @@ let getDoctor = async (req,res)=>{
     
 }
 
-module.exports = { checkLogin, changePassWord, createUser, updateData, getAppointment,updateYourImage,getProfile,getDoctorProfile,getDoctor };
+module.exports = { checkLogin, changePassWord, createUser, updateData, getMyProfile, updateMyProfile,getAppointment,updateYourImage,getProfile,getDoctorProfile,getDoctor };
+
