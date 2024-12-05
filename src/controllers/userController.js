@@ -1,6 +1,6 @@
-const { handleUserLogin } = require('../services/user-services');
-const { hashPassword, createNewUser, getAllUser, getUserById, updateUserData, deleteUserById } = require('../services/CRUDservices')
-const { splitFullName } = require('../algorithm/algorithm')
+const { handleUserLogin, getMyAppointment,updateImage } = require('../services/user-services');
+const { hashPassword, createNewUser, getAllUser, getUserById, updateUserData, deleteUserById, getAllDoctor } = require('../services/CRUDservices')
+const { splitFullName,doctorIdtoUserId } = require('../algorithm/algorithm')
 const db = require('../models/index');
 const bcrypt = require('bcrypt');
 
@@ -94,7 +94,7 @@ let changePassWord = async (req, res) => {
 
 let updateData = async (req, res) => {
     let data = {
-        id: req.query.id,
+        id: req.body.id,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         address: req.body.address
@@ -161,4 +161,97 @@ let createUser = async (req, res) => {
     }
 };
 
-module.exports = { checkLogin, changePassWord, createUser, updateData };
+let getAppointment = async (req,res) => {
+    userId = req.body.id;
+    try{
+        let myAppointment = await getMyAppointment(userId);
+        if(myAppointment[0]){
+            return res.status(200).json({
+                errCode: 0,
+                data: myAppointment
+            })
+        }
+        else{
+            return res.status(200).json({
+                errCode: 0,
+                data: {}
+            })
+        }
+    }
+    catch(error){
+        return res.status(500).json({
+            errCode: 1,
+            message: 'Error to get your appointment'
+        })
+    }
+}
+
+let updateYourImage = async (req,res) => {
+    let userId = req.body.id;
+    let image = req.body.image;
+    try {
+        updateImage(userId,image);
+        return res.status(200).json({
+            errCode: 0,
+            message: "OK"
+        })
+
+    } catch (error) {
+        return res.status(500).json({
+            errCode: 0,
+            message:"Cannot change your image"
+        })
+    }
+}
+
+let getProfile = async (req,res) =>{
+    let userId = req.body.id;
+    try {
+        let profile = await getUserById(userId);
+        return res.status(200).json({
+            errCode: 0,
+            data: profile
+        })
+    } catch (error) {
+        return res.status(404).json({
+            errCode: 1,
+            message: "Not found info"
+        })
+    }
+    
+}
+
+let getDoctorProfile = async (req,res) => {
+    let doctorId = doctorIdtoUserId(req.body.doctorId);
+    try {
+        let profile = await getUserById(doctorId);
+        return res.status(200).json({
+            errCode: 0,
+            data: profile
+        })
+    } catch (error) {
+        return res.status(404).json({
+            errCode: 1,
+            message: "Not found info"
+        })
+    }
+}
+
+let getDoctor = async (req,res)=>{
+    try {
+        let doctors = await getAllDoctor()
+       console.log(doctors[15])
+        return res.status(200).json({
+            errCode: 0,
+            data: doctors
+        }) 
+    } catch (error) {
+        return res.status(404).json({
+            errCode: 1,
+            message: "Not found info"
+        })
+    }
+    
+}
+
+module.exports = { checkLogin, changePassWord, createUser, updateData, getAppointment,updateYourImage,getProfile,getDoctorProfile,getDoctor };

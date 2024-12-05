@@ -1,6 +1,10 @@
 'use strict';
 
 const { hashPassword } = require('../services/CRUDservices');
+const {encodeBase64} = require('../algorithm/algorithm')
+const path = require('path')
+
+const parentPath = path.resolve(__dirname,'..');
 
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -13,7 +17,7 @@ module.exports = {
         lastName: 'James',
         address: 'London',
         gender: 1,
-        image: 'images/doc1.png',
+        image: encodeBase64(parentPath.concat('/images/doc1.png')),
         roleId: 'R1',
         positionId: 'P1',
         createdAt: new Date(),
@@ -23,6 +27,9 @@ module.exports = {
     await queryInterface.bulkInsert('doctorinfos', [{
         doctorId: 1,
         info:`Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.`,
+        degree: 'MBSS',
+        experience: 1,
+        
         appointmentFee: 50
       }], {});
       
@@ -30,7 +37,7 @@ module.exports = {
         doctorId: 1,
         specialtyId:1
       }], {});
-
+    
     await queryInterface.bulkInsert('Users', [{
         email: 'larson@gmail.com',
         password: hashedPassword,
@@ -38,7 +45,7 @@ module.exports = {
         lastName: 'Larson',
         address: 'London',
         gender: 2,
-        image: 'images/doc2.png',
+        image: encodeBase64(parentPath.concat('/images/doc2.png')),
         roleId: 'R1',
         positionId: 'P1',
         createdAt: new Date(),
@@ -47,7 +54,9 @@ module.exports = {
 
     await queryInterface.bulkInsert('doctorinfos', [{
         doctorId: 2,
-        info:`Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.`,
+        
+        degree: 'MBSS',
+        experience: 1,info:`Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.`,
         appointmentFee: 60
       }], {});
       
@@ -63,7 +72,7 @@ module.exports = {
         lastName: 'Patel',
         address: 'London',
         gender: 1,
-        image: 'images/doc3.png',
+        image: encodeBase64(parentPath.concat('/images/doc3.png')),
         roleId: 'R1',
         positionId: 'P1',
         createdAt: new Date(),
@@ -73,6 +82,8 @@ module.exports = {
     await queryInterface.bulkInsert('doctorinfos', [{
         doctorId: 3,
         info:`Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.`,
+        degree: 'MBSS',
+        experience: 1,
         appointmentFee: 30
       }], {});
       
@@ -88,7 +99,7 @@ module.exports = {
         lastName: 'Minh',
         address: 'London',
         gender: 1,
-        image: 'images/doc4.png',
+        image: encodeBase64(parentPath.concat('/images/doc4.png')),
         roleId: 'R1',
         positionId: 'P1',
         createdAt: new Date(),
@@ -98,6 +109,8 @@ module.exports = {
     await queryInterface.bulkInsert('doctorinfos', [{
         doctorId: 4,
         info:`Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.`,
+        degree: 'MBSS',
+        experience: 1,
         appointmentFee: 40
       }], {});
       
@@ -113,7 +126,7 @@ module.exports = {
         lastName: 'Garcia',
         address: 'London',
         gender: 2,
-        image: 'images/doc5.png',
+        image: encodeBase64(parentPath.concat('/images/doc5.png')),
         roleId: 'R1',
         positionId: 'P1',
         createdAt: new Date(),
@@ -122,7 +135,10 @@ module.exports = {
 
     await queryInterface.bulkInsert('doctorinfos', [{
         doctorId: 5,
+        
         info:`Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.`,
+        degree: 'MBSS',
+        experience: 1,
         appointmentFee: 50
       }], {});
       
@@ -138,7 +154,7 @@ module.exports = {
         lastName: 'Williams',
         address: 'London',
         gender: 1,
-        image: 'images/doc6.png',
+        image: encodeBase64(parentPath.concat('/images/doc6.png')),
         roleId: 'R1',
         positionId: 'P1',
         createdAt: new Date(),
@@ -148,6 +164,8 @@ module.exports = {
     await queryInterface.bulkInsert('doctorinfos', [{
         doctorId: 6,
         info:`Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.`,
+        degree: 'MBSS',
+        experience: 1,
         appointmentFee: 50
       }], {});
       
@@ -163,7 +181,7 @@ module.exports = {
         lastName: 'Davis',
         address: 'London',
         gender: 1,
-        image: 'images/doc7.png',
+        image: encodeBase64(parentPath.concat('/images/doc7.png')),
         roleId: 'R1',
         positionId: 'P1',
         createdAt: new Date(),
@@ -173,6 +191,8 @@ module.exports = {
     await queryInterface.bulkInsert('doctorinfos', [{
         doctorId: 7,
         info:`Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.`,
+        degree: 'MBSS',
+        experience: 1,
         appointmentFee: 50
       }], {});
       
@@ -189,7 +209,7 @@ module.exports = {
         lastName: 'White',
         address: 'London',
         gender: 1,
-        image: 'images/doc8.png',
+        image: encodeBase64(parentPath.concat('/images/doc8.png')),
         roleId: 'R1',
         positionId: 'P1',
         createdAt: new Date(),
@@ -199,6 +219,8 @@ module.exports = {
     await queryInterface.bulkInsert('doctorinfos', [{
         doctorId: 8,
         info:`Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.`,
+        degree: 'MBSS',
+        experience: 1,
         appointmentFee: 60
       }], {});
       
@@ -214,7 +236,7 @@ module.exports = {
         lastName: 'Mitchell',
         address: 'London',
         gender: 2,
-        image: 'images/doc9.png',
+        image: encodeBase64(parentPath.concat('/images/doc9.png')),
         roleId: 'R1',
         positionId: 'P1',
         createdAt: new Date(),
@@ -224,6 +246,8 @@ module.exports = {
     await queryInterface.bulkInsert('doctorinfos', [{
         doctorId: 9,
         info:`Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.`,
+        degree: 'MBSS',
+        experience: 1,
         appointmentFee: 30
       }], {});
       
@@ -238,7 +262,7 @@ module.exports = {
         lastName: 'King',
         address: 'London',
         gender: 1,
-        image: 'images/doc10.png',
+        image: encodeBase64(parentPath.concat('/images/doc10.png')),
         roleId: 'R1',
         positionId: 'P1',
         createdAt: new Date(),
@@ -247,7 +271,10 @@ module.exports = {
 
     await queryInterface.bulkInsert('doctorinfos', [{
         doctorId: 10,
+        
         info:`Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.`,
+        degree: 'MBSS',
+        experience: 1,
         appointmentFee: 40
       }], {});
       
@@ -262,7 +289,7 @@ module.exports = {
         lastName: 'Kelly',
         address: 'London',
         gender: 2,
-        image: 'images/doc11.png',
+        image: encodeBase64(parentPath.concat('/images/doc11.png')),
         roleId: 'R1',
         positionId: 'P1',
         createdAt: new Date(),
@@ -271,7 +298,10 @@ module.exports = {
 
     await queryInterface.bulkInsert('doctorinfos', [{
         doctorId: 11,
+        
         info:`Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.`,
+        degree: 'MBSS',
+        experience: 1,
         appointmentFee: 50
       }], {});
       
@@ -286,7 +316,7 @@ module.exports = {
         lastName: 'Harris',
         address: 'London',
         gender: 1,
-        image: 'images/doc12.png',
+        image: encodeBase64(parentPath.concat('/images/doc12.png')),
         roleId: 'R1',
         positionId: 'P1',
         createdAt: new Date(),
@@ -296,6 +326,8 @@ module.exports = {
     await queryInterface.bulkInsert('doctorinfos', [{
         doctorId: 12,
         info:`Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.`,
+        degree: 'MBSS',
+        experience: 1,
         appointmentFee: 50
       }], {});
       
@@ -310,7 +342,7 @@ module.exports = {
         lastName: 'Evans',
         address: 'London',
         gender: 2,
-        image: 'images/doc13.png',
+        image: encodeBase64(parentPath.concat('/images/doc13.png')),
         roleId: 'R1',
         positionId: 'P1',
         createdAt: new Date(),
@@ -320,6 +352,8 @@ module.exports = {
     await queryInterface.bulkInsert('doctorinfos', [{
         doctorId: 13,
         info:`Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.`,
+        degree: 'MBSS',
+        experience: 1,
         appointmentFee: 50
       }], {});
       
@@ -334,7 +368,7 @@ module.exports = {
         lastName: 'Martinez',
         address: 'London',
         gender: 1,
-        image: 'images/doc14.png',
+        image: encodeBase64(parentPath.concat('/images/doc14.png')),
         roleId: 'R1',
         positionId: 'P1',
         createdAt: new Date(),
@@ -344,6 +378,8 @@ module.exports = {
     await queryInterface.bulkInsert('doctorinfos', [{
         doctorId: 14,
         info:`Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.`,
+        degree: 'MBSS',
+        experience: 1,
         appointmentFee: 60
       }], {});
       
@@ -358,7 +394,7 @@ module.exports = {
         lastName: 'Hill',
         address: 'London',
         gender: 2,
-        image: 'images/doc15.png',
+        image: encodeBase64(parentPath.concat('/images/doc15.png')),
         roleId: 'R1',
         positionId: 'P1',
         createdAt: new Date(),
@@ -368,6 +404,8 @@ module.exports = {
     await queryInterface.bulkInsert('doctorinfos', [{
         doctorId: 15,
         info:`Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.`,
+        degree: 'MBSS',
+        experience: 1,
         appointmentFee: 30
       }], {});
       

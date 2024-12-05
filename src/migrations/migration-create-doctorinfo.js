@@ -20,6 +20,12 @@ module.exports = {
                 allowNull:false,
                 type: Sequelize.TEXT
             },
+            degree:{
+                type: Sequelize.STRING
+            },
+            experience:{
+                type: Sequelize.INTEGER
+            },
             appointmentFee:{
                 allowNull:false,
                 type: Sequelize.INTEGER

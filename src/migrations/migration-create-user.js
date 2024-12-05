@@ -41,7 +41,7 @@ module.exports = {
         type: Sequelize.BOOLEAN
       },
       image: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT('medium')
       },
       roleId: {
         type: Sequelize.STRING

@@ -1,3 +1,6 @@
+const fs = require('fs')
+
+
 function splitFullName(fullName) {
     const nameParts = fullName.trim().split(' ');
 
@@ -60,4 +63,16 @@ function convertTimeType(time) {
     return timeSlotMapping[time];
 }
 
-module.exports = { splitFullName, getNextSevenDays, doctorIdtoUserId, convertTimeType }
+function encodeBase64(filePath){
+    const file = fs.readFileSync(filePath);
+    return file.toString('base64');
+};
+
+function decodeBase64(base64String,filePath){
+    const buffer = Buffer.from(base64String, 'base64'); // Chuyển đổi từ Base64
+    fs.writeFileSync(filePath, buffer); // Ghi ra file
+};
+
+
+
+module.exports = { splitFullName, getNextSevenDays, doctorIdtoUserId, convertTimeType,encodeBase64,decodeBase64 }

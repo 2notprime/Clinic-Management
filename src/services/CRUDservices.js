@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
 const db = require('../models/index');
-const { Error, Op } = require('sequelize');
+const { sequelize } = db;
+const { Error, Op, where } = require('sequelize');
+const { raw } = require('express');
 const salt = bcrypt.genSaltSync(10);
 
 function hashPassword(password) {
@@ -50,6 +52,63 @@ async function getAllUser() {
     throw new Error(e);
   }
 }
+
+async function getAllDoctor() {
+  try {
+    const query = `select * from Users JOIN doctorinfos ON Users.id = doctorinfos.doctorId   JOIN DoctorWithSpecialty ON doctorinfos.doctorId = DoctorWithSpecialty.doctorId`
+    
+    //`
+    //   SELECT Users.id, Users.firstName ,Users.lastName,Users.image, Users.address,Users.phonenumber,Users.gender,Users.roleId,Users.positionId, doctorinfos.*, DoctorWithSpecialty.*, specialties.*
+    // FROM Users
+    // JOIN doctorinfos ON Users.id = doctorinfos.doctorId
+    // JOIN DoctorWithSpecialty ON doctorinfos.doctorId = DoctorWithSpecialty.doctorId
+    // JOIN specialties ON DoctorWithSpecialty.specialtyId = specialties.id
+    // ORDER BY Users.id;
+    // `;
+
+    const [results, metadata] = await db.sequelize.query(query);
+
+    
+    
+    let doctors = []
+    for(let doc of results){
+      let specialtyName = await db.Specialty.findOne({
+        where: {
+          id: doc.specialtyId
+           },
+           attributes: ['name'],
+           raw: true
+      })
+
+  
+
+      let doctor ={
+        _id: 'doc' + doc.doctorId,
+        name: 'Dr. ' + doc.firstName+' '+doc.lastName,
+        image: doc.image,
+        speciality: specialtyName.name,
+        degree: doc.degree,
+        experience: doc.experience + ' years',
+        about: doc.info ,
+        fees: doc.appointmentFee,
+        address: {
+            line1: doc.address,
+            line2: ''
+        }
+      }
+
+      doctors.push(doctor)
+    }
+
+    return doctors;
+  } catch (error) {
+    console.error("An error occurred while fetching doctor data:", error);
+    throw error;
+  }
+}
+
+
+
 
 async function getUserById(userId) {
   try {
@@ -128,4 +187,4 @@ async function deleteUserById(userId) {
   }
 }
 
-module.exports = { hashPassword, createNewUser, getAllUser, getUserById, updateUserData, deleteUserById, getUserRole };
+module.exports = { hashPassword, createNewUser, getAllUser, getUserById, updateUserData, deleteUserById, getUserRole,getAllDoctor};

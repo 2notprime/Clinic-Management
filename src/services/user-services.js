@@ -55,4 +55,37 @@ async function handleUserLogin(email, password) {
     }
 }
 
-module.exports = { handleUserLogin };
+let getMyAppointment = async (userId) => {
+    try {
+      let user = await db.Booking.findAll({
+        where: { patientID: userId },
+        raw: true,
+      });
+      return user;
+    } catch (err) {
+      throw err;
+    }
+};
+
+
+let updateImage = async (userId, base64String) => {
+    try {
+        const [affectedRows] = await db.User.update(
+            { image: base64String }, // Dữ liệu cần cập nhật
+            { where: { id: userId } } // Điều kiện
+        );
+
+        if (affectedRows > 0) {
+            console.log("User image updated successfully!");
+        } else {
+            console.log("No user found with the given ID.");
+        }
+    } catch (error) {
+        console.error("Error updating user image:", error);
+    }
+};
+
+
+
+
+module.exports = { handleUserLogin,getMyAppointment,updateImage };
