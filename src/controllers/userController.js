@@ -4,6 +4,22 @@ const { splitFullName,doctorIdtoUserId } = require('../algorithm/algorithm')
 const db = require('../models/index');
 const bcrypt = require('bcrypt');
 
+const multer = require('multer');
+
+// Cấu hình multer để lưu ảnh vào thư mục 'uploads'
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/'); // Chỉ định thư mục lưu ảnh
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + '-' + file.originalname); // Đặt tên file là thời gian hiện tại và tên file gốc
+    }
+});
+
+// Khởi tạo multer với cấu hình đã tạo
+const upload = multer({ storage: storage });
+
+
 let checkLogin = async (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
@@ -93,6 +109,7 @@ let changePassWord = async (req, res) => {
 }
 
 let updateData = async (req, res) => {
+    console.log("hello",req.body)
     let data = {
         id: req.body.id,
         firstName: req.body.firstName,
@@ -205,22 +222,30 @@ let updateYourImage = async (req,res) => {
     }
 }
 
-let getProfile = async (req,res) =>{
-    let userId = req.body.id;
+let getProfile = async (req, res) => {
+    let userId = req.body.id; // Lấy ID từ URL
+    let avatarPath = req.file ? req.file.path : null; // Lấy đường dẫn đến file ảnh nếu có
+
+    console.log(req.body);  // In ra ID lấy từ URL
+    console.log(req.file);    // In ra thông tin file ảnh tải lên (nếu có)
+
     try {
-        let profile = await getUserById(userId);
+        let profile = await getUserById(userId); // Lấy thông tin người dùng từ DB
+
+        console.log(profile)
         return res.status(200).json({
             errCode: 0,
-            data: profile
-        })
+            data: profile,
+            avatar: avatarPath ? avatarPath : null // Gửi đường dẫn ảnh nếu có
+        });
     } catch (error) {
         return res.status(404).json({
             errCode: 1,
             message: "Not found info"
-        })
+        });
     }
-    
-}
+};
+
 
 let getDoctorProfile = async (req,res) => {
     let doctorId = doctorIdtoUserId(req.body.doctorId);
@@ -259,7 +284,7 @@ let updateMyProfile = async (req, res) => {
     let userId = req.body.id;
     let userData = req.body.userData
     let nameParts = userData.name.split(" ");
-
+    let image =req.body.image
     let firstName = nameParts[0];
     let lastName = nameParts.slice(1).join(" ");
 
@@ -269,8 +294,10 @@ let updateMyProfile = async (req, res) => {
         lastName: lastName,
         address: userData.address,
         phonenumber: userData.phone,
-        gender: userData.gender === "Male" ? 0 : 1,
+        image: userData.image,
+        gender: userData.gender === "Male" ? 1 : 2,
     }
+    console.log(data)
     let allUsers = await updateUserData(data);
     if (allUsers[0]) {
         return res.status(200).json({
@@ -291,7 +318,7 @@ let updateMyProfile = async (req, res) => {
 let getDoctor = async (req,res)=>{
     try {
         let doctors = await getAllDoctor()
-       console.log(doctors[15])
+        console.log(doctors[16])
         return res.status(200).json({
             errCode: 0,
             data: doctors

@@ -14,7 +14,7 @@ router.get('/api/doctor-calendar-free', checkDoctorFree)
 
 router.get('/api/get-my-appointment',getAppointment)
 router.post('/api/updateImage',updateYourImage)
-router.get('/api/user-profile',getProfile)
+router.post('/api/user-profile',getProfile)
 router.get('/api/doctor-profile',getDoctorProfile)
 router.post('/api/user-profile-change',updateData)
 router.get('/api/get-all-doctor',getDoctor)

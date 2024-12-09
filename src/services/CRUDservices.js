@@ -88,7 +88,7 @@ async function getAllDoctor() {
         image: doc.image,
         speciality: specialtyName.name,
         degree: doc.degree,
-        experience: doc.experience + ' years',
+        experience: doc.experience===1?doc.experience + ' year':doc.experience + ' years',
         about: doc.info ,
         fees: doc.appointmentFee,
         address: {
@@ -158,6 +158,7 @@ async function updateUserData(data) {
       user.address = data.address;
       user.phonenumber = data.phonenumber;
       user.gender = data.gender;
+      user.image = data.image
 
 
       await user.save();
