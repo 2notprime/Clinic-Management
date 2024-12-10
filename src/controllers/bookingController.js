@@ -3,7 +3,7 @@ const db = require('../models/index');
 const { handleUserLogin } = require('../services/user-services');
 const { hashPassword, createNewUser, getAllUser, getUserById, updateUserData, deleteUserById } = require('../services/CRUDservices')
 const { doctorIdtoUserId, splitFullName, convertTimeType } = require('../algorithm/algorithm')
-const { insertBookings, insertSchedules, getAllBookings, getBookingsByPatientId, checkPatientBooking, getDoctorInvolve, deleteBookings, deleteSchedules } = require('../services/booking-services')
+const { insertBookings, insertSchedules, getAllBookings, getBookingsByPatientId, checkPatientBooking, getDoctorInvolve, getPatientInvolve, getPreviousPatientsInvolve, deleteBookings, deleteSchedules } = require('../services/booking-services')
 
 
 let bookingAppointMent = async (req, res) => {
@@ -36,47 +36,76 @@ let bookingAppointMent = async (req, res) => {
     })
 }
 
-let deleteBookingsAppointment = async(req,res) => {
-    
+let deleteBookingsAppointment = async (req, res) => {
 
-    let doctorId=doctorIdtoUserId(req.body.data.item._id);
-    let patientID=parseInt(req.body.userId);
-    let date=new Date(req.body.data.item.date);
-    let timeType=req.body.data.item.timeType;
+    let roleId = req.body.roleId
+    let doctorId, patientID
+    if (roleId === "R2") {
+        doctorId = doctorIdtoUserId(req.body.data.item._id);
+        patientID = parseInt(req.body.userId);
+    }
+    else if (roleId === "R1") {
+        console.log(req.body)
+        patientID = parseInt(req.body.data.item._id);
+        doctorId = parseInt(req.body.userId);
+    }
+    let date = new Date(req.body.data.item.date);
+    let timeType = req.body.data.item.timeType;
 
-    console.log(doctorId, patientID,date,timeType)
+    console.log(doctorId, patientID, date, timeType)
 
     try {
-        let result1 = await deleteBookings(doctorId,patientID,date,timeType);
-        let result2 = await deleteSchedules(doctorId,date,timeType);
-        console.log(result1,result2)
-        if(result1&&result2){
+        let result1 = await deleteBookings(doctorId, patientID, date, timeType);
+        let result2 = await deleteSchedules(doctorId, date, timeType);
+        console.log(result1, result2)
+        if (result1 && result2) {
             return res.status(200).json({
                 errCode: 0
-            }) 
+            })
         }
-        else{
+        else {
             return res.status(500).json({
                 errCode: 1
-            }) 
+            })
         }
     } catch (error) {
         return res.status(500).json({
             errCode: 3
-        }) 
+        })
     }
 
 }
 
-let getMyAppointment = async (req,res) =>{
+let getMyAppointment = async (req, res) => {
     let id = req.params.id
-    
+
     let results = await getDoctorInvolve(id);
- 
+
     return res.status(200).json({
         errCode: 0,
         data: results
     })
 }
 
-module.exports = { bookingAppointMent,getMyAppointment,deleteBookingsAppointment }
+let getMyPatients = async (req, res) => {
+    let id = req.params.id
+
+    let results = await getPatientInvolve(id);
+
+    return res.status(200).json({
+        errCode: 0,
+        data: results
+    })
+}
+
+let getMyPreviousPatients = async (req, res) => {
+    let id = req.params.id
+
+    let results = await getPreviousPatientsInvolve(id);
+
+    return res.status(200).json({
+        errCode: 0,
+        data: results
+    })
+}
+module.exports = { bookingAppointMent, getMyAppointment, deleteBookingsAppointment, getMyPatients, getMyPreviousPatients }

@@ -1,10 +1,10 @@
 const Sequelize = require('sequelize');
 
 // Cấu hình kết nối tới MySQL sử dụng cổng 3306
-const sequelize = new Sequelize('Clinic_Management_Database', 'root', "Letienkhoi1710", {
+const sequelize = new Sequelize('Clinic_Management', 'root', null, {
     host: 'localhost',
     dialect: 'mysql',
-    port: 3309, // Chỉ định cổng 3306
+    port: 3306, // Chỉ định cổng 3306
     logging: false
 });
 

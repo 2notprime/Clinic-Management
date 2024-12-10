@@ -1,11 +1,11 @@
 {
   "development": {
     "username": "root",
-    "password":"Letienkhoi1710",
-    "database": "Clinic_Management_Database",
+    "password": null,
+    "database": "Clinic_Management",
     "host": "localhost",
     "dialect": "mysql",
-    "port": 3309,
+    "port": 3306,
     "dialectOptions": {
       "charset": "utf8mb4"
     }
