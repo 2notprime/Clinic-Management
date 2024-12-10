@@ -32,7 +32,7 @@ let checkLogin = async (req, res) => {
         })
     }
 
-    console.log(userData);
+  
     if (userData.errCode === 0) {
         return res.status(200).json({
             errCode: userData.errCode,
@@ -109,7 +109,7 @@ let changePassWord = async (req, res) => {
 }
 
 let updateData = async (req, res) => {
-    console.log("hello",req.body)
+  
     let data = {
         id: req.body.id,
         firstName: req.body.firstName,
@@ -137,8 +137,7 @@ let updateData = async (req, res) => {
 let createUser = async (req, res) => {
 
 
-    console.log(req.body.name);
-    console.log(splitFullName(req.body.name).firstName);
+   
     try {
         let data = {
             email: req.body.email,
@@ -225,14 +224,12 @@ let updateYourImage = async (req,res) => {
 let getProfile = async (req, res) => {
     let userId = req.body.id; // Lấy ID từ URL
     let avatarPath = req.file ? req.file.path : null; // Lấy đường dẫn đến file ảnh nếu có
-
-    console.log(req.body);  // In ra ID lấy từ URL
-    console.log(req.file);    // In ra thông tin file ảnh tải lên (nếu có)
+    // In ra thông tin file ảnh tải lên (nếu có)
 
     try {
         let profile = await getUserById(userId); // Lấy thông tin người dùng từ DB
 
-        console.log(profile)
+        
         return res.status(200).json({
             errCode: 0,
             data: profile,
@@ -297,7 +294,7 @@ let updateMyProfile = async (req, res) => {
         image: userData.image,
         gender: userData.gender === "Male" ? 1 : 2,
     }
-    console.log(data)
+ 
     let allUsers = await updateUserData(data);
     if (allUsers[0]) {
         return res.status(200).json({
@@ -318,7 +315,7 @@ let updateMyProfile = async (req, res) => {
 let getDoctor = async (req,res)=>{
     try {
         let doctors = await getAllDoctor()
-        console.log(doctors[16])
+       
         return res.status(200).json({
             errCode: 0,
             data: doctors

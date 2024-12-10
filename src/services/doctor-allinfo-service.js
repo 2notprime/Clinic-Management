@@ -31,7 +31,7 @@ let getDoctorScheduleById = async (userId) => {
 let getDoctorCalendarFree = async (userId) => {
     let allTimeType = ["T1", "T2", "T3", "T4", "T5", "T6", "T7", "T8"]
     let doctorSchedule = await getDoctorScheduleById(userId);
-    console.log(doctorSchedule)
+   
     let freeDays = getNextSevenDays();
     if(doctorSchedule[0]){
     doctorSchedule.forEach(function (item, index) {

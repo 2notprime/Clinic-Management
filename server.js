@@ -21,8 +21,8 @@ app.use(cors({
 }));
 
 // Cấu hình middleware để xử lý JSON và form data
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // Sử dụng định tuyến từ file web.js
 app.use('/', webRoutes);
