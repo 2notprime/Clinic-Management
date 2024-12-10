@@ -49,10 +49,12 @@ let checkLogin = async (req, res) => {
 
 let changePassWord = async (req, res) => {
     try {
-        let userid = req.query.id;
-        let oldPass = req.body.oldPass;
-        let newPass = req.body.newPass;
-        let checkNewPass = req.body.checkNewPass;
+        console.log(req.body)
+        let userid = req.body.userId;
+        let oldPass = req.body.oldPassword;
+        let newPass = req.body.newPassword;
+        let checkNewPass = req.body.newPassword;
+        
 
         if (newPass !== checkNewPass) {
             return res.status(400).json({
