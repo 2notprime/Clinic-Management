@@ -9,12 +9,13 @@ const { insertBookings, insertSchedules, getAllBookings, getBookingsByPatientId,
 let bookingAppointMent = async (req, res) => {
     let doctorId = req.body.doctorId
     doctorId = doctorIdtoUserId(doctorId)
-    let patientId = req.body.patientId
+    let patientId = req.body.patientId  
     let date = req.body.date
 
     console.log(req.body)
     date = new Date(date);
     date.setHours(7, 0, 0, 0);
+
 
     let timeType = req.body.time
     timeType = convertTimeType(timeType)
@@ -36,21 +37,26 @@ let bookingAppointMent = async (req, res) => {
     })
 }
 
+
 let deleteBookingsAppointment = async (req, res) => {
 
     let roleId = req.body.roleId
     let doctorId, patientID
+
+    console.log(req.body)
+
     if (roleId === "R2") {
         doctorId = doctorIdtoUserId(req.body.data.item._id);
         patientID = parseInt(req.body.userId);
     }
     else if (roleId === "R1") {
-        console.log(req.body)
+       
         patientID = parseInt(req.body.data.item._id);
         doctorId = parseInt(req.body.userId);
     }
     let date = new Date(req.body.data.item.date);
     let timeType = req.body.data.item.timeType;
+    date.setHours(7,0,0,0)
 
     console.log(doctorId, patientID, date, timeType)
 

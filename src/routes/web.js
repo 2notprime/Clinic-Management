@@ -22,7 +22,6 @@ router.post('/api/user-profile-change', updateData)
 router.get('/api/get-all-doctor', getDoctor)
 // router.get('/api/specialties',getSpecialties)
 
-
 router.get('/api/get-my-profile', getMyProfile)
 router.put('/api/update-my-profile', updateMyProfile)
 
