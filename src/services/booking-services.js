@@ -72,15 +72,24 @@ let deleteSchedules = async (doctorId, date, timeType) => {
 
 let getAllBookings = async () => {
     try {
-        let bookings = await db.Booking.findAll({
-            raw: true,
-            where: {
-                statusId: {
-                    [db.Sequelize.Op.in]: ["S1", "S2"],
-                },
-            },
-        });
-        return bookings;
+        const query = `SELECT 
+    CONCAT(u1.firstName, ' ', u1.lastName) AS pName,
+    u1.image,
+    CONCAT('Dr. ', u2.firstName, ' ', u2.lastName) AS dName,
+    doctorinfos.appointmentFee AS fees,
+    bookings.date
+FROM 
+    Users u1
+JOIN 
+    bookings ON bookings.patientID = u1.id 
+JOIN 
+    Users u2 ON u2.id = bookings.doctorId 
+JOIN 
+    doctorinfos ON doctorinfos.doctorId = u2.id 
+ORDER BY 
+    bookings.date DESC;`
+        const [results, metadata] = await db.sequelize.query(query);
+        return results;
     } catch (e) {
         throw new Error(e);
     }
@@ -265,5 +274,5 @@ let getPreviousPatientsInvolve = async (userId) => {
 
 module.exports = {
     insertBookings, insertSchedules, getAllBookings, getBookingsByPatientId,
-    checkPatientBooking, getDoctorInvolve, deleteBookings, deleteSchedules, getPatientInvolve, getPreviousPatientsInvolve
+    checkPatientBooking, getDoctorInvolve, deleteBookings, deleteSchedules, getPatientInvolve, getPreviousPatientsInvolve,getAllBookings
 }

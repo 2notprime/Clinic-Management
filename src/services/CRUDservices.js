@@ -3,6 +3,8 @@ const db = require('../models/index');
 const { sequelize } = db;
 const { Error, Op, where } = require('sequelize');
 const { raw } = require('express');
+const specialty = require('../models/specialty');
+const { splitFullName } = require('../algorithm/algorithm');
 const salt = bcrypt.genSaltSync(10);
 
 function hashPassword(password) {
@@ -190,5 +192,75 @@ async function deleteUserById(userId) {
     throw new Error(e);
   }
 }
+let getAllPatients = async () => {
+  try {
+    // Truy vấn tất cả người dùng với roleId là "R2"
+    let allUsers = await db.User.findAll({
+      where: {
+        roleId: "R2"
+      },
+      raw: true // Sử dụng raw để nhận về dữ liệu không phải là đối tượng Sequelize
+    });
+    return allUsers; // Trả về dữ liệu
+  } catch (err) {
+    console.error("Error fetching patients:", err); // Log chi tiết lỗi
+    throw err; // Ném lại lỗi gốc để xử lý ở nơi gọi hàm
+  }
+}
 
-module.exports = { hashPassword, createNewUser, getAllUser, getUserById, updateUserData, deleteUserById, getUserRole,getAllDoctor};
+
+let addDoctor = async (image, email, Dname, password, specialty, experience, fees, address, info) => {
+  const mappingSpe = {
+    "General Physician": 1,
+    "Gynecologist": 2,
+    "Dermatologist": 3,
+    "Pediatricians": 4,
+    "Neurologist": 5,
+    "Gastroenterologist": 6,
+  };
+
+  // Kiểm tra email đã tồn tại chưa
+  const check = await db.User.findOne({
+    where: {
+      email: email,
+    },
+  });
+
+  // Hash mật khẩu
+  let hashPassWordFromBcrypt = await hashPassword(password);
+
+  if (!check) {
+    // Thêm user mới
+    const newdoc = await db.User.create({
+      email: email,
+      firstName: splitFullName(Dname).firstName,
+      lastName: splitFullName(Dname).lastName,
+      password: hashPassWordFromBcrypt,
+      image: image,
+      address: address,
+      roleId: "R1",
+      positionId: "P1",
+    });
+
+    // Thêm thông tin chuyên môn của bác sĩ
+    await db.DoctorWithSpecialty.create({
+      doctorId: newdoc.id,
+      specialtyId: mappingSpe[specialty],
+    });
+
+    // Thêm thông tin chi tiết của bác sĩ
+    await db.Doctorinfo.create({
+      doctorId: newdoc.id,
+      info: info,
+      degree: "MBSS",
+      experience: experience,
+      appointmentFee: fees,
+    });
+
+    return { success: true, message: "Doctor added successfully" };
+  } else {
+    return { success: false, message: "Email already exists" };
+  }
+};
+
+module.exports = { hashPassword, createNewUser, getAllUser, getUserById, updateUserData, deleteUserById, getUserRole,getAllDoctor,getAllPatients,addDoctor};

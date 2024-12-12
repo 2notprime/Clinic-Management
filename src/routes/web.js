@@ -1,9 +1,9 @@
 const express = require('express')
 const router = express.Router()
 
-const { checkLogin, createUser, changePassWord, getAppointment, updateYourImage, getProfile, getDoctorProfile, updateData, getDoctor, getMyProfile, updateMyProfile } = require("../controllers/userController")
+const { checkLogin, createUser, changePassWord, getAppointment, updateYourImage, getProfile, getDoctorProfile, updateData, getDoctor, getMyProfile, updateMyProfile,allPatients, AddDoctor } = require("../controllers/userController")
 
-const { bookingAppointMent, getMyAppointment, getMyPatients, getMyPreviousPatients, deleteBookingsAppointment } = require('../controllers/bookingController')
+const { bookingAppointMent, getMyAppointment, getMyPatients, getMyPreviousPatients, deleteBookingsAppointment, allBookings } = require('../controllers/bookingController')
 const { checkDoctorFree } = require('../controllers/doctorAllInfoController')
 
 router.post('/api/login', checkLogin)
@@ -24,8 +24,8 @@ router.get('/api/get-all-doctor', getDoctor)
 
 router.get('/api/get-my-profile', getMyProfile)
 router.put('/api/update-my-profile', updateMyProfile)
-
+router.get('/api/get-all-bookings',allBookings)
 router.post('/api/delete-appointment', deleteBookingsAppointment)
-
-
+router.get('/api/get-all-patients',allPatients)
+router.post('/api/doctors/add',AddDoctor)
 module.exports = router

@@ -18,7 +18,9 @@ module.exports = (sequelize, DataTypes) => {
        info: DataTypes.TEXT,
        degree: DataTypes.STRING,
        experience: DataTypes.INTEGER,
-       appointmentFee: DataTypes.INTEGER
+       appointmentFee: DataTypes.INTEGER,
+       createdAt: DataTypes.DATE,
+       updatedAt: DataTypes.DATE
     }, {
         sequelize,
         modelName: 'Doctorinfo',

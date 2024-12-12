@@ -2,7 +2,7 @@ const db = require('../models/index');
 
 const { handleUserLogin } = require('../services/user-services');
 const { hashPassword, createNewUser, getAllUser, getUserById, updateUserData, deleteUserById } = require('../services/CRUDservices')
-const { doctorIdtoUserId, splitFullName, convertTimeType } = require('../algorithm/algorithm')
+const { doctorIdtoUserId, splitFullName, convertTimeType, formatDate } = require('../algorithm/algorithm')
 const { insertBookings, insertSchedules, getAllBookings, getBookingsByPatientId, checkPatientBooking, getDoctorInvolve, getPatientInvolve, getPreviousPatientsInvolve, deleteBookings, deleteSchedules } = require('../services/booking-services')
 
 
@@ -114,4 +114,26 @@ let getMyPreviousPatients = async (req, res) => {
         data: results
     })
 }
-module.exports = { bookingAppointMent, getMyAppointment, deleteBookingsAppointment, getMyPatients, getMyPreviousPatients }
+
+let allBookings = async (req,res) =>{
+    let allBook = await getAllBookings();
+    let allBooks =[];
+    console.log(allBook);
+
+    for(book of allBook){
+        let b = {
+            patient: book.pName,
+            image: book.image,
+            date: formatDate(book.date),
+            doctor: book.dName,
+            fees:`$${book.fees}`,
+            status: "Complete"
+        }
+        allBooks.push(b);
+    }
+    return res.status(200).json({
+        message: "ok",
+        data: allBooks
+    })
+}
+module.exports = { bookingAppointMent, getMyAppointment, deleteBookingsAppointment, getMyPatients, getMyPreviousPatients,allBookings }

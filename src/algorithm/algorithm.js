@@ -74,5 +74,13 @@ function decodeBase64(base64String,filePath){
 };
 
 
-
-module.exports = { splitFullName, getNextSevenDays, doctorIdtoUserId, convertTimeType,encodeBase64,decodeBase64 }
+function formatDate(date) {
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    return new Date(date).toLocaleDateString('en-GB', options);
+  }
+  
+  // Ví dụ sử dụng:
+  const date = new Date('2024-09-25');
+  console.log(formatDate(date)); // Output: "25 Sep 2024"
+  
+module.exports = { splitFullName, getNextSevenDays, doctorIdtoUserId, convertTimeType,encodeBase64,decodeBase64,formatDate }

@@ -1,5 +1,5 @@
 const { handleUserLogin, getMyAppointment,updateImage } = require('../services/user-services');
-const { hashPassword, createNewUser, getAllUser, getUserById, updateUserData, deleteUserById, getAllDoctor } = require('../services/CRUDservices')
+const { hashPassword, createNewUser, getAllUser, getUserById, updateUserData, deleteUserById, getAllDoctor, getAllPatients, addDoctor } = require('../services/CRUDservices')
 const { splitFullName,doctorIdtoUserId } = require('../algorithm/algorithm')
 const db = require('../models/index');
 const bcrypt = require('bcrypt');
@@ -330,6 +330,42 @@ let getDoctor = async (req,res)=>{
     }
     
 }
+let allPatients = async(req,res) => {
+    let all = await getAllPatients();
+    return res.status(200).json({
+        message: "ok",
+        data: all
+    }) 
+}
 
-module.exports = { checkLogin, changePassWord, createUser, updateData, getMyProfile, updateMyProfile,getAppointment,updateYourImage,getProfile,getDoctorProfile,getDoctor };
+let AddDoctor =  async(req,res) => {
+  console.log(req.body);
+
+  let name = req.body.name;
+  let speciality = req.body.speciality;
+  let email =req.body.email;
+  let password = req.body.password;
+  let experience = req.body.experience;
+  let fees =req.body.fees;
+  let address= req.body.address;
+  let image =req.body.picture;
+  let info= req.body.aboutMe;
+
+  let message = await addDoctor(image,email,name,password,speciality,experience,fees,address,info);
+
+  if(message.success===true){
+    return res.status(200).json({
+        errCode: 0,
+        message:"ok"
+    })
+  }
+  else{
+    return res.status(500).json({
+        errCode: 1,
+        message:"fail"
+    })
+  }
+}
+
+module.exports = { checkLogin,allPatients,AddDoctor, changePassWord, createUser, updateData, getMyProfile, updateMyProfile,getAppointment,updateYourImage,getProfile,getDoctorProfile,getDoctor };
 
