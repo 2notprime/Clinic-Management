@@ -5,6 +5,7 @@ const { checkLogin, createUser, changePassWord, getAppointment, updateYourImage,
 
 const { bookingAppointMent, getMyAppointment, getMyPatients, getMyPreviousPatients, deleteBookingsAppointment, allBookings } = require('../controllers/bookingController')
 const { checkDoctorFree } = require('../controllers/doctorAllInfoController')
+const   { getResponse } = require('../controllers/botController')
 
 router.post('/api/login', checkLogin)
 router.post('/api/register', createUser)
@@ -28,4 +29,6 @@ router.get('/api/get-all-bookings',allBookings)
 router.post('/api/delete-appointment', deleteBookingsAppointment)
 router.get('/api/get-all-patients',allPatients)
 router.post('/api/doctors/add',AddDoctor)
+router.post('/api/get-bot-response',getResponse)
+
 module.exports = router
