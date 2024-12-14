@@ -23,7 +23,7 @@ function activateVirtualEnv() {
 function askQuestion(question, clinicInfo) {
   return new Promise((resolve, reject) => {
     const dataToSend = JSON.stringify({ question: question, clinicInfo: clinicInfo });
-
+    console.log(clinicInfo)
     // Tạo quá trình chạy script Python với tham số
     const pythonProcess = spawn('python', [scriptPath, dataToSend]);
 

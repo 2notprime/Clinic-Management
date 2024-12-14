@@ -109,6 +109,61 @@ async function getAllDoctor() {
   }
 }
 
+async function getAllDoctorForAdmin() {
+   try {
+    const query = `select * from Users JOIN doctorinfos ON Users.id = doctorinfos.doctorId   JOIN DoctorWithSpecialty ON doctorinfos.doctorId = DoctorWithSpecialty.doctorId`
+    
+    //`
+    //   SELECT Users.id, Users.firstName ,Users.lastName,Users.image, Users.address,Users.phonenumber,Users.gender,Users.roleId,Users.positionId, doctorinfos.*, DoctorWithSpecialty.*, specialties.*
+    // FROM Users
+    // JOIN doctorinfos ON Users.id = doctorinfos.doctorId
+    // JOIN DoctorWithSpecialty ON doctorinfos.doctorId = DoctorWithSpecialty.doctorId
+    // JOIN specialties ON DoctorWithSpecialty.specialtyId = specialties.id
+    // ORDER BY Users.id;
+    // `;
+
+    const [results, metadata] = await db.sequelize.query(query);
+
+    
+    
+    let doctors = []
+    for(let doc of results){
+      let specialtyName = await db.Specialty.findOne({
+        where: {
+          id: doc.specialtyId
+           },
+           attributes: ['name'],
+           raw: true
+      })
+
+  
+
+      let doctor ={
+        _id: 'doc' + doc.doctorId,
+        email: doc.email,
+        name: doc.firstName+' '+doc.lastName,
+        image: doc.image,
+        speciality: specialtyName.name,
+        degree: doc.degree,
+        experience: doc.experience===1?doc.experience + ' year':doc.experience + ' years',
+        about: doc.info ,
+        fees: doc.appointmentFee,
+        address: {
+            line1: doc.address,
+            line2: ''
+        }
+      }
+
+      doctors.push(doctor)
+    }
+
+    return doctors;
+  } catch (error) {
+    console.error("An error occurred while fetching doctor data:", error);
+    throw error;
+  } 
+}
+
 
 
 
@@ -262,5 +317,106 @@ let addDoctor = async (image, email, Dname, password, specialty, experience, fee
     return { success: false, message: "Email already exists" };
   }
 };
+let updateDoctorById = async (id, image, email, Dname, password, specialty, experience, fees, address, info) => {
+  const mappingSpe = {
+    "General Physician": 1,
+    "Gynecologist": 2,
+    "Dermatologist": 3,
+    "Pediatricians": 4,
+    "Neurologist": 5,
+    "Gastroenterologist": 6,
+  };
 
-module.exports = { hashPassword, createNewUser, getAllUser, getUserById, updateUserData, deleteUserById, getUserRole,getAllDoctor,getAllPatients,addDoctor};
+  // Kiểm tra bác sĩ có tồn tại không trong bảng User
+  const doctor = await db.User.findOne({
+    where: {
+      id: id,
+    },
+  });
+
+  if (!doctor) {
+    return { success: false, message: "Doctor not found" };
+  }
+
+  // Kiểm tra email đã tồn tại chưa, nhưng bỏ qua email hiện tại của bác sĩ
+  if (email !== doctor.email) {
+    const emailCheck = await db.User.findOne({
+      where: {
+        email: email,
+      },
+    });
+
+    if (emailCheck) {
+      return { success: false, message: "Email already exists" };
+    }
+  }
+
+  // Hash mật khẩu nếu có thay đổi và password không phải là chuỗi rỗng
+  let hashPassWordFromBcrypt = password ? await hashPassword(password) : doctor.password;
+
+  // Cập nhật thông tin bác sĩ trong bảng User
+  await db.User.update(
+    {
+      email: email,
+      firstName: splitFullName(Dname).firstName,
+      lastName: splitFullName(Dname).lastName,
+      password: hashPassWordFromBcrypt,
+      image: image,
+      address: address,
+    },
+    {
+      where: {
+        id: id,
+      },
+    }
+  );
+
+  // Tìm doctorId trong bảng DoctorWithSpecialty
+  const doctorWithSpecialty = await db.DoctorWithSpecialty.findOne({
+    where: {
+      doctorId: id,
+    },
+  });
+
+  if (doctorWithSpecialty) {
+    // Cập nhật thông tin chuyên môn trong bảng DoctorWithSpecialty dựa trên doctorId
+    await db.DoctorWithSpecialty.update(
+      {
+        specialtyId: mappingSpe[specialty],
+      },
+      {
+        where: {
+          id: doctorWithSpecialty.id,  // Cập nhật dựa trên id của DoctorWithSpecialty
+        },
+      }
+    );
+  }
+
+  // Tìm doctorId trong bảng Doctorinfo
+  const doctorInfo = await db.Doctorinfo.findOne({
+    where: {
+      doctorId: id,
+    },
+  });
+
+  if (doctorInfo) {
+    // Cập nhật thông tin chi tiết trong bảng Doctorinfo dựa trên doctorId
+    await db.Doctorinfo.update(
+      {
+        info: info,
+        degree: "MBSS",  // Có thể tuỳ chỉnh nếu cần
+        experience: experience,
+        appointmentFee: fees,
+      },
+      {
+        where: {
+          id: doctorInfo.id,  // Cập nhật dựa trên id của Doctorinfo
+        },
+      }
+    );
+  }
+
+  return { success: true, message: "Doctor updated successfully" };
+};
+
+module.exports = {updateDoctorById, hashPassword,getAllDoctorForAdmin, createNewUser, getAllUser, getUserById, updateUserData, deleteUserById, getUserRole,getAllDoctor,getAllPatients,addDoctor};

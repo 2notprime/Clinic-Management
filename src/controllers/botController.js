@@ -2,6 +2,7 @@ const {activateVirtualEnv,askQuestion} = require('../chatbot/javascript/connec-p
 const {generatePrompt} =require('../chatbot/javascript/generate-prompt')
 let getResponse = async (req, res) => {
     let chat = req.body.message;
+    console.log(req.body)
     
     // Kích hoạt môi trường ảo
     activateVirtualEnv();

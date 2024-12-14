@@ -1,5 +1,5 @@
 const { handleUserLogin, getMyAppointment,updateImage } = require('../services/user-services');
-const { hashPassword, createNewUser, getAllUser, getUserById, updateUserData, deleteUserById, getAllDoctor, getAllPatients, addDoctor } = require('../services/CRUDservices')
+const { hashPassword,updateDoctorById, createNewUser,getAllDoctorForAdmin, getAllUser, getUserById, updateUserData, deleteUserById, getAllDoctor, getAllPatients, addDoctor } = require('../services/CRUDservices')
 const { splitFullName,doctorIdtoUserId } = require('../algorithm/algorithm')
 const db = require('../models/index');
 const bcrypt = require('bcrypt');
@@ -330,6 +330,23 @@ let getDoctor = async (req,res)=>{
     }
     
 }
+
+let getDoctorForAdmin = async (req, res) => {
+       try {
+        let doctors = await getAllDoctorForAdmin()
+       
+        return res.status(200).json({
+            errCode: 0,
+            data: doctors
+        }) 
+    } catch (error) {
+        return res.status(404).json({
+            errCode: 1,
+            message: "Not found info"
+        })
+    }
+    
+}
 let allPatients = async(req,res) => {
     let all = await getAllPatients();
     return res.status(200).json({
@@ -366,6 +383,51 @@ let AddDoctor =  async(req,res) => {
     })
   }
 }
+let updateDoctor = async (req, res) => {
+  console.log(req.body,req.params);
 
-module.exports = { checkLogin,allPatients,AddDoctor, changePassWord, createUser, updateData, getMyProfile, updateMyProfile,getAppointment,updateYourImage,getProfile,getDoctorProfile,getDoctor };
+  let id = doctorIdtoUserId(req.params.docId); // Lấy id từ tham số URL
+  let name = req.body.name;
+  let speciality = req.body.speciality;
+  let email = req.body.email;
+  let password = req.body.password;
+  let experience =parseInt(req.body.experience.replace((req.body.experience==='1 year'?' year':' years'),''));
+  let fees = req.body.fees;
+  let address = req.body.address;
+  let image = req.body.picture;
+  let info = req.body.aboutMe;
+
+  let message = await updateDoctorById(id, image, email, name, password, speciality, experience, fees, address, info);
+
+  if (message.success === true) {
+    return res.status(200).json({
+      errCode: 0,
+      message: "Doctor updated successfully"
+    });
+  } else {
+    return res.status(500).json({
+      errCode: 1,
+      message: message.message || "Failed to update doctor"
+    });
+  }
+};
+
+let deleteUser = async (req, res) => {
+    let id = doctorIdtoUserId(req.params.docId);
+    try {
+        let message = await deleteUserById(id);
+        return res.status(200).json({
+            errCode: 0,
+            message: message
+        })
+    } catch (error) {
+         return res.status(500).json({
+            errCode: 1,
+            message: 'đéo được'
+        })
+    }
+    
+}
+
+module.exports = {deleteUser,updateDoctor,getDoctorForAdmin, checkLogin,allPatients,AddDoctor, changePassWord, createUser, updateData, getMyProfile, updateMyProfile,getAppointment,updateYourImage,getProfile,getDoctorProfile,getDoctor };
 
