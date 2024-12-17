@@ -3,7 +3,7 @@ const db = require('../models/index');
 const { handleUserLogin } = require('../services/user-services');
 const { hashPassword, createNewUser, getAllUser, getUserById, updateUserData, deleteUserById } = require('../services/CRUDservices')
 const { doctorIdtoUserId, splitFullName, convertTimeType, formatDate } = require('../algorithm/algorithm')
-const { insertBookings, insertSchedules, getAllBookings, getBookingsByPatientId, checkPatientBooking, getDoctorInvolve, getPatientInvolve, getPreviousPatientsInvolve, deleteBookings, deleteSchedules } = require('../services/booking-services')
+const { insertBookings, insertSchedules, getAllBookings, getBookingsByPatientId, checkPatientBooking, getDoctorInvolve, getPatientInvolve, getPreviousPatientsInvolve, deleteBookings, deleteSchedules, addCheckSaw, getCheckSaw, deleteCheckSaw } = require('../services/booking-services')
 
 
 let bookingAppointMent = async (req, res) => {
@@ -11,6 +11,7 @@ let bookingAppointMent = async (req, res) => {
     doctorId = doctorIdtoUserId(doctorId)
     let patientId = req.body.patientId
     let date = req.body.date
+    let mess = req.body.message
 
     console.log(req.body)
     date = new Date(date);
@@ -29,6 +30,7 @@ let bookingAppointMent = async (req, res) => {
     else {
         await insertSchedules(doctorId, date, timeType)
         await insertBookings(doctorId, patientId, date, timeType)
+        await addCheckSaw(mess,doctorId,patientId)
     }
 
     return res.status(200).json({
@@ -136,4 +138,29 @@ let allBookings = async (req, res) => {
         data: allBooks
     })
 }
-module.exports = { bookingAppointMent, getMyAppointment, deleteBookingsAppointment, getMyPatients, getMyPreviousPatients, allBookings }
+
+let getCheck = async (req, res) => {
+
+    console.log(req.body)
+    let message = req.body.message
+    let id = req.body.id
+    
+    
+    let result = await getCheckSaw(message,id)
+    
+    return res.status(200).json({
+        data: result
+    })
+}
+
+let deleteCheck = async (req, res) => {
+    let id = req.body.userId
+    let message = req.body.message
+    
+    let result = deleteCheckSaw(message, id)
+    
+    return res.status(200).json({
+        errCode: 0
+    })
+}
+module.exports = {getCheck,deleteCheck, bookingAppointMent, getMyAppointment, deleteBookingsAppointment, getMyPatients, getMyPreviousPatients, allBookings }

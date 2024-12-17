@@ -131,7 +131,7 @@ let getDoctorInvolve = async (userId) => {
 
 
     const [results, metadata] = await db.sequelize.query(query);
-
+   
     let doctors = []
     const now = new Date();
     const utc = now.getTime() + now.getTimezoneOffset() * 60000;
@@ -164,12 +164,16 @@ let getDoctorInvolve = async (userId) => {
         }
 
         const [hours, minutes, seconds] = timeSlotMapping[doctor.timeType].split(":").map(Number);
+
+      
         doctor.date.setHours(hours + 7, minutes, seconds, 0);
         doctor.date.toISOString()
         if (doctor.date >= gmt7) {
             doctors.push(doctor)
         }
     }
+
+    
 
     return doctors;
 
@@ -271,8 +275,81 @@ let getPreviousPatientsInvolve = async (userId) => {
 
 
 
+let addCheckSaw = async (message, doctorId, patientId) => {
+  try {
+    const newRecord = await db.Sawbook.create({
+      doctorId: doctorId,
+        patientId: patientId,
+        patientCheck: message === 1 ? 0 : 1,
+        doctorCheck: message === 1 ? 1 : 0,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+    });
+
+    console.log('Insert thành công:', newRecord.toJSON());
+    return newRecord;
+  } catch (error) {
+    console.error('Lỗi khi insert dữ liệu:', error);
+    throw error;
+  }
+};
+
+
+
+
+let deleteCheckSaw = async (message, id) => {
+  try {
+    let deleteCondition = {};
+
+    if (message == 0) {
+      // Xóa mọi bản ghi có patientId = patientId
+      deleteCondition = { patientId: id };
+    } else {
+      // Xóa mọi bản ghi có doctorId = doctorId
+      deleteCondition = { doctorId: id };
+    }
+
+    // Thực hiện xóa bản ghi
+    const deletedRows = await db.Sawbook.destroy({
+      where: deleteCondition
+    });
+
+    console.log(`Đã xóa ${deletedRows} bản ghi thành công.`);
+    return deletedRows;
+  } catch (error) {
+    console.error('Lỗi khi xóa bản ghi:', error);
+    throw error;
+  }
+};
+
+
+let getCheckSaw = async (message, id) => {
+  try {
+    let whereCondition = {};
+
+    if (message == 0) {
+      // Trả về các bản ghi có patientCheck = 1
+      whereCondition = { patientId: id, patientCheck: 0 };
+    } else {
+      // Trả về các bản ghi có doctorCheck = 1
+      whereCondition = { doctorId: id, doctorCheck: 0 };
+    }
+
+    // Thực hiện tìm kiếm bản ghi
+    const records = await db.Sawbook.findAll({
+      where: whereCondition
+    });
+
+    console.log("Các bản ghi tìm thấy:", records);
+    return records;
+  } catch (error) {
+    console.error("Lỗi khi truy vấn dữ liệu:", error);
+    throw error;
+  }
+};
+
 
 module.exports = {
-    insertBookings, insertSchedules, getAllBookings, getBookingsByPatientId,
+    getCheckSaw,deleteCheckSaw,addCheckSaw,insertBookings, insertSchedules, getAllBookings, getBookingsByPatientId,
     checkPatientBooking, getDoctorInvolve, deleteBookings, deleteSchedules, getPatientInvolve, getPreviousPatientsInvolve, getAllBookings
 }

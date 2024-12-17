@@ -30,12 +30,16 @@ module.exports = {
         degree: 'MBSS',
         experience: 1,
         
-        appointmentFee: 50
+      appointmentFee: 50,
+         createdAt: new Date(),
+        updatedAt: new Date()
       }], {});
       
     await queryInterface.bulkInsert('DoctorWithSpecialty', [{
         doctorId: 1,
-        specialtyId:1
+      specialtyId: 1,
+         createdAt: new Date(),
+        updatedAt: new Date()
       }], {});
     
     await queryInterface.bulkInsert('Users', [{
@@ -57,12 +61,16 @@ module.exports = {
         
         degree: 'MBSS',
         experience: 1,info:`Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.`,
-        appointmentFee: 60
+      appointmentFee: 60,
+          createdAt: new Date(),
+        updatedAt: new Date()
       }], {});
       
     await queryInterface.bulkInsert('DoctorWithSpecialty', [{
         doctorId: 2,
-        specialtyId:2
+      specialtyId: 2,
+          createdAt: new Date(),
+        updatedAt: new Date()
       }], {});
 
     await queryInterface.bulkInsert('Users', [{
@@ -84,12 +92,16 @@ module.exports = {
         info:`Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.`,
         degree: 'MBSS',
         experience: 1,
-        appointmentFee: 30
+      appointmentFee: 30,
+          createdAt: new Date(),
+        updatedAt: new Date()
       }], {});
       
     await queryInterface.bulkInsert('DoctorWithSpecialty', [{
         doctorId: 3,
-        specialtyId: 3
+      specialtyId: 3,
+      createdAt: new Date(),
+        updatedAt: new Date()
       }], {});
 
     await queryInterface.bulkInsert('Users', [{  //
@@ -111,12 +123,16 @@ module.exports = {
         info:`Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.`,
         degree: 'MBSS',
         experience: 1,
-        appointmentFee: 40
+      appointmentFee: 40,
+          createdAt: new Date(),
+        updatedAt: new Date()
       }], {});
       
     await queryInterface.bulkInsert('DoctorWithSpecialty', [{
         doctorId: 4,
-        specialtyId: 4
+      specialtyId: 4,
+          createdAt: new Date(),
+        updatedAt: new Date()
       }], {});
 
       await queryInterface.bulkInsert('Users', [{
@@ -139,12 +155,16 @@ module.exports = {
         info:`Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.`,
         degree: 'MBSS',
         experience: 1,
-        appointmentFee: 50
+      appointmentFee: 50,
+          createdAt: new Date(),
+        updatedAt: new Date()
       }], {});
       
     await queryInterface.bulkInsert('DoctorWithSpecialty', [{
         doctorId: 5,
-        specialtyId: 5
+      specialtyId: 5,
+          createdAt: new Date(),
+        updatedAt: new Date()
       }], {});
 
       await queryInterface.bulkInsert('Users', [{
@@ -166,12 +186,16 @@ module.exports = {
         info:`Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.`,
         degree: 'MBSS',
         experience: 1,
-        appointmentFee: 50
+      appointmentFee: 50,
+          createdAt: new Date(),
+        updatedAt: new Date()
       }], {});
       
     await queryInterface.bulkInsert('DoctorWithSpecialty', [{
         doctorId: 6,
-        specialtyId: 5
+      specialtyId: 5,
+          createdAt: new Date(),
+        updatedAt: new Date()
       }], {});
 
     await queryInterface.bulkInsert('Users', [{
@@ -193,12 +217,16 @@ module.exports = {
         info:`Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.`,
         degree: 'MBSS',
         experience: 1,
-        appointmentFee: 50
+      appointmentFee: 50,
+          createdAt: new Date(),
+        updatedAt: new Date()
       }], {});
       
     await queryInterface.bulkInsert('DoctorWithSpecialty', [{
         doctorId: 7,
-        specialtyId: 1
+      specialtyId: 1,
+         createdAt: new Date(),
+        updatedAt: new Date()
       }], {});
 
 
@@ -221,12 +249,16 @@ module.exports = {
         info:`Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.`,
         degree: 'MBSS',
         experience: 1,
-        appointmentFee: 60
+      appointmentFee: 60,
+          createdAt: new Date(),
+        updatedAt: new Date()
       }], {});
       
     await queryInterface.bulkInsert('DoctorWithSpecialty', [{
         doctorId: 8,
-        specialtyId: 2
+      specialtyId: 2,
+          createdAt: new Date(),
+        updatedAt: new Date()
       }], {});
 
     await queryInterface.bulkInsert('Users', [{
@@ -248,12 +280,16 @@ module.exports = {
         info:`Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.`,
         degree: 'MBSS',
         experience: 1,
-        appointmentFee: 30
+      appointmentFee: 30,
+          createdAt: new Date(),
+        updatedAt: new Date()
       }], {});
       
     await queryInterface.bulkInsert('DoctorWithSpecialty', [{
         doctorId: 9,
-        specialtyId: 3
+      specialtyId: 3,
+          createdAt: new Date(),
+        updatedAt: new Date()
       }], {});
     await queryInterface.bulkInsert('Users', [{
         email: 'king@gmail.com',
@@ -275,12 +311,16 @@ module.exports = {
         info:`Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.`,
         degree: 'MBSS',
         experience: 1,
-        appointmentFee: 40
+      appointmentFee: 40,
+          createdAt: new Date(),
+        updatedAt: new Date()
       }], {});
       
     await queryInterface.bulkInsert('DoctorWithSpecialty', [{
         doctorId: 10,
-        specialtyId: 4
+      specialtyId: 4,
+          createdAt: new Date(),
+        updatedAt: new Date()
       }], {});
     await queryInterface.bulkInsert('Users', [{
         email: 'kelly@gmail.com',
@@ -302,12 +342,16 @@ module.exports = {
         info:`Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.`,
         degree: 'MBSS',
         experience: 1,
-        appointmentFee: 50
+      appointmentFee: 50,
+          createdAt: new Date(),
+        updatedAt: new Date()
       }], {});
       
     await queryInterface.bulkInsert('DoctorWithSpecialty', [{
         doctorId: 11,
-        specialtyId: 5
+      specialtyId: 5,
+          createdAt: new Date(),
+        updatedAt: new Date()
       }], {});
     await queryInterface.bulkInsert('Users', [{
         email: 'harris@gmail.com',
@@ -328,12 +372,16 @@ module.exports = {
         info:`Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.`,
         degree: 'MBSS',
         experience: 1,
-        appointmentFee: 50
+      appointmentFee: 50,
+          createdAt: new Date(),
+        updatedAt: new Date()
       }], {});
       
     await queryInterface.bulkInsert('DoctorWithSpecialty', [{
         doctorId: 12,
-        specialtyId: 5
+      specialtyId: 5,
+         createdAt: new Date(),
+        updatedAt: new Date()
       }], {});
     await queryInterface.bulkInsert('Users', [{
         email: 'evans@gmail.com',
@@ -354,12 +402,16 @@ module.exports = {
         info:`Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.`,
         degree: 'MBSS',
         experience: 1,
-        appointmentFee: 50
+      appointmentFee: 50,
+          createdAt: new Date(),
+        updatedAt: new Date()
       }], {});
       
     await queryInterface.bulkInsert('DoctorWithSpecialty', [{
         doctorId: 13,
-        specialtyId: 1
+      specialtyId: 1,
+          createdAt: new Date(),
+        updatedAt: new Date()
       }], {});
       await queryInterface.bulkInsert('Users', [{
         email: 'martinez@gmail.com',
@@ -380,12 +432,16 @@ module.exports = {
         info:`Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.`,
         degree: 'MBSS',
         experience: 1,
-        appointmentFee: 60
+      appointmentFee: 60,
+          createdAt: new Date(),
+        updatedAt: new Date()
       }], {});
       
     await queryInterface.bulkInsert('DoctorWithSpecialty', [{
         doctorId: 14,
-        specialtyId: 2
+      specialtyId: 2,
+          createdAt: new Date(),
+        updatedAt: new Date()
       }], {});
     await queryInterface.bulkInsert('Users', [{
         email: 'hill@gmail.com',
@@ -406,12 +462,16 @@ module.exports = {
         info:`Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.`,
         degree: 'MBSS',
         experience: 1,
-        appointmentFee: 30
+      appointmentFee: 30,
+          createdAt: new Date(),
+        updatedAt: new Date()
       }], {});
       
     await queryInterface.bulkInsert('DoctorWithSpecialty', [{
         doctorId: 15,
-        specialtyId: 3
+      specialtyId: 3,
+          createdAt: new Date(),
+        updatedAt: new Date()
       }], {});
 
     },
