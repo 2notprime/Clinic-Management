@@ -5,6 +5,7 @@ from gemini_api import GeminiAPI
 import os
 from pathlib import Path
 from datetime import datetime, timedelta
+
 # Cấu hình logging
 
 # Xác định thư mục chứa file hiện tại và đường dẫn tới file API keys
@@ -18,7 +19,7 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
-sys.stdout.reconfigure(encoding='utf-8')
+sys.stdout.reconfigure(encoding="utf-8")
 # Kiểm tra tham số đầu vào
 if len(sys.argv) < 2:
     logging.error("Không có dữ liệu JSON được truyền vào.")
@@ -27,14 +28,14 @@ if len(sys.argv) < 2:
 try:
     # Phân tích cú pháp JSON từ tham số đầu tiên
     data = json.loads(sys.argv[1])
-    question = data['question']
-    clinic_info = data['clinicInfo']
+    question = data["question"]
+    clinic_info = data["clinicInfo"]
 
     logging.info(f"Received question: {question}")
     logging.info(f"Received clinic info: {clinic_info}")
 
     # Xử lý câu hỏi và trả về câu trả lời (giả sử đây là câu trả lời mẫu)
-    answer = gemini_api.extract_info(question,clinic_info)
+    answer = gemini_api.extract_info(question, clinic_info)
     print(answer)
 
 except json.JSONDecodeError as e:

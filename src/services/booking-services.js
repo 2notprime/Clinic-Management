@@ -274,5 +274,5 @@ let getPreviousPatientsInvolve = async (userId) => {
 
 module.exports = {
     insertBookings, insertSchedules, getAllBookings, getBookingsByPatientId,
-    checkPatientBooking, getDoctorInvolve, deleteBookings, deleteSchedules, getPatientInvolve, getPreviousPatientsInvolve,getAllBookings
+    checkPatientBooking, getDoctorInvolve, deleteBookings, deleteSchedules, getPatientInvolve, getPreviousPatientsInvolve, getAllBookings
 }

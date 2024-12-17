@@ -46,13 +46,14 @@ class GeminiAPI:
             return [
                 m.name
                 for m in models
-                 if "generateContent" in m.supported_generation_methods and "gemini-1.0-pro" not in m.name
+                if "generateContent" in m.supported_generation_methods
+                and "gemini-1.0-pro" not in m.name
             ]
         except Exception as e:
             print(f"Lỗi khi lấy danh sách model: {str(e)}")
             return []
 
-    def extract_info(self, prompt_text,clinic_info):
+    def extract_info(self, prompt_text, clinic_info):
         """Trả lời câu hỏi của khách hàng dựa trên thông tin phòng khám"""
         full_prompt = f"""
         Bạn là một tư vấn viên hỗ trợ khách hàng của phòng khám. Hãy trả lời các câu hỏi của khách hàng một cách chi tiết, chuyên nghiệp, và dễ hiểu dựa trên các thông tin sau:
@@ -73,7 +74,8 @@ class GeminiAPI:
         Trả lời: "Phòng khám mở cửa cả tuần từ 8:00 đến 11:00 và từ 13:00 đến 17:00."
         - Câu hỏi: "Chi phí khám bệnh là bao nhiêu?"
         Trả lời: "Chi phí khám tùy thuộc vào bác sĩ mà bạn hẹn, vui lòng liên hệ hotline hoặc truy cập trực tiếp trang web để biết thêm thông tin chi tiết."
-        
+        - Câu hỏi: "Làm thế nào để đặt lịch khám"
+        Trả lời: "Ở trên trang web, bạn hãy truy cập vào mục "Booking" và chọn bác sĩ, sau đó bạn hãy đặt lịch khám theo thời gian phù hợp."
         **Câu hỏi từ khách hàng**:
         {prompt_text}
 
@@ -91,7 +93,7 @@ class GeminiAPI:
         # Duyệt qua từng model để thử
         for model_name in models:
             try:
-                
+
                 model = genai.GenerativeModel(model_name)
                 response = model.generate_content(full_prompt)
 

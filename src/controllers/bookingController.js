@@ -9,7 +9,7 @@ const { insertBookings, insertSchedules, getAllBookings, getBookingsByPatientId,
 let bookingAppointMent = async (req, res) => {
     let doctorId = req.body.doctorId
     doctorId = doctorIdtoUserId(doctorId)
-    let patientId = req.body.patientId  
+    let patientId = req.body.patientId
     let date = req.body.date
 
     console.log(req.body)
@@ -50,13 +50,13 @@ let deleteBookingsAppointment = async (req, res) => {
         patientID = parseInt(req.body.userId);
     }
     else if (roleId === "R1") {
-       
+
         patientID = parseInt(req.body.data.item._id);
         doctorId = parseInt(req.body.userId);
     }
     let date = new Date(req.body.data.item.date);
     let timeType = req.body.data.item.timeType;
-    date.setHours(7,0,0,0)
+    date.setHours(7, 0, 0, 0)
 
     console.log(doctorId, patientID, date, timeType)
 
@@ -115,18 +115,18 @@ let getMyPreviousPatients = async (req, res) => {
     })
 }
 
-let allBookings = async (req,res) =>{
+let allBookings = async (req, res) => {
     let allBook = await getAllBookings();
-    let allBooks =[];
+    let allBooks = [];
     console.log(allBook);
 
-    for(book of allBook){
+    for (book of allBook) {
         let b = {
             patient: book.pName,
             image: book.image,
             date: formatDate(book.date),
             doctor: book.dName,
-            fees:`$${book.fees}`,
+            fees: `$${book.fees}`,
             status: "Complete"
         }
         allBooks.push(b);
@@ -136,4 +136,4 @@ let allBookings = async (req,res) =>{
         data: allBooks
     })
 }
-module.exports = { bookingAppointMent, getMyAppointment, deleteBookingsAppointment, getMyPatients, getMyPreviousPatients,allBookings }
+module.exports = { bookingAppointMent, getMyAppointment, deleteBookingsAppointment, getMyPatients, getMyPreviousPatients, allBookings }

@@ -25,7 +25,7 @@ function askQuestion(question, clinicInfo) {
     const dataToSend = JSON.stringify({ question: question, clinicInfo: clinicInfo });
     console.log(clinicInfo)
     // Tạo quá trình chạy script Python với tham số
-    const pythonProcess = spawn('python', [scriptPath, dataToSend]);
+    const pythonProcess = spawn('py', [scriptPath, dataToSend]);
 
     let response = '';
     let errorOutput = '';
@@ -92,4 +92,4 @@ async function getUserInput() {
 // Bắt đầu chương trình
 getUserInput();
 
-module.exports = {askQuestion,activateVirtualEnv}
+module.exports = { askQuestion, activateVirtualEnv }
