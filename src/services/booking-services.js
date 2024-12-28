@@ -6,17 +6,23 @@ const { Error, where } = require('sequelize');
 
 let insertBookings = async (doctorId, patientId, date, timeType) => {
     try {
-        await db.Booking.create({
-            statusId: "S1",
-            doctorId: doctorId,
-            patientID: patientId,
-            date: date,
-            timeType: timeType,
-        });
+        const newBooking = await db.Booking.create(
+            {
+                statusId: "S1",
+                doctorId: doctorId,
+                patientID: patientId,
+                date: date,
+                timeType: timeType,
+            }
+        );
+
+        // Trả về thông tin phần tử vừa tạo
+        return newBooking;
     } catch (e) {
         throw new Error(e); // Thêm lỗi nếu có
     }
-}
+};
+
 let deleteBookings = async (doctorId, patientId, date, timeType) => {
     let booking = await db.Booking.findOne({
         raw: true,
@@ -127,7 +133,21 @@ let checkPatientBooking = async (patientId, date, timeType) => {
 }
 
 let getDoctorInvolve = async (userId) => {
-    const query = `SELECT u2.*,bookings.timeType,bookings.date from Users u1 join bookings on bookings.patientID =u1.id join Users u2 on u2.id =bookings.doctorId where u1.id=${userId}`;
+    const query = `SELECT 
+    u2.*, 
+    bookings.timeType, 
+    bookings.date, 
+    prebookinginfos.info
+FROM 
+    Users u1
+JOIN 
+    bookings ON bookings.patientID = u1.id
+JOIN 
+    Users u2 ON u2.id = bookings.doctorId
+LEFT JOIN 
+    prebookinginfos ON prebookinginfos.bookingId = bookings.id
+WHERE 
+    u1.id = 16;`;
 
 
     const [results, metadata] = await db.sequelize.query(query);
@@ -157,6 +177,7 @@ let getDoctorInvolve = async (userId) => {
             image: doc.image,
             date: doc.date,
             timeType: doc.timeType,
+            preMessage: doc.info,
             address: {
                 line1: doc.address,
                 line2: ''
@@ -348,8 +369,17 @@ let getCheckSaw = async (message, id) => {
   }
 };
 
+let insertPreInfo = async (id, info) => {
+    await db.Prebookinginfo.create({
+        bookingId: id,
+        info: info,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+    });
+}
+
 
 module.exports = {
-    getCheckSaw,deleteCheckSaw,addCheckSaw,insertBookings, insertSchedules, getAllBookings, getBookingsByPatientId,
+    insertPreInfo,getCheckSaw,deleteCheckSaw,addCheckSaw,insertBookings, insertSchedules, getAllBookings, getBookingsByPatientId,
     checkPatientBooking, getDoctorInvolve, deleteBookings, deleteSchedules, getPatientInvolve, getPreviousPatientsInvolve, getAllBookings
 }

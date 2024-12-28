@@ -3,7 +3,7 @@ const db = require('../models/index');
 const { handleUserLogin } = require('../services/user-services');
 const { hashPassword, createNewUser, getAllUser, getUserById, updateUserData, deleteUserById } = require('../services/CRUDservices')
 const { doctorIdtoUserId, splitFullName, convertTimeType, formatDate } = require('../algorithm/algorithm')
-const { insertBookings, insertSchedules, getAllBookings, getBookingsByPatientId, checkPatientBooking, getDoctorInvolve, getPatientInvolve, getPreviousPatientsInvolve, deleteBookings, deleteSchedules, addCheckSaw, getCheckSaw, deleteCheckSaw } = require('../services/booking-services')
+const { insertBookings, insertSchedules, getAllBookings, getBookingsByPatientId, checkPatientBooking, getDoctorInvolve, getPatientInvolve, getPreviousPatientsInvolve, deleteBookings, deleteSchedules, addCheckSaw, getCheckSaw, deleteCheckSaw, insertPreInfo } = require('../services/booking-services')
 
 
 let bookingAppointMent = async (req, res) => {
@@ -14,12 +14,16 @@ let bookingAppointMent = async (req, res) => {
     let mess = req.body.message
 
     console.log(req.body)
+
+
     date = new Date(date);
     date.setHours(7, 0, 0, 0);
 
 
     let timeType = req.body.time
     timeType = convertTimeType(timeType)
+
+    console.log(timeType)
     existAppointment = await checkPatientBooking(patientId, date, timeType)
     if (existAppointment) {
         return res.status(500).json({
@@ -29,14 +33,17 @@ let bookingAppointMent = async (req, res) => {
     }
     else {
         await insertSchedules(doctorId, date, timeType)
-        await insertBookings(doctorId, patientId, date, timeType)
-        await addCheckSaw(mess,doctorId,patientId)
+        const book = await insertBookings(doctorId, patientId, date, timeType)
+        await addCheckSaw(mess, doctorId, patientId)
+
+        return res.status(200).json({
+        errCode: 0,
+        message: 'Appointment successfully made!',
+        bookid : book.id
+    })
     }
 
-    return res.status(200).json({
-        errCode: 0,
-        message: 'Appointment successfully made!'
-    })
+    
 }
 
 
@@ -163,4 +170,15 @@ let deleteCheck = async (req, res) => {
         errCode: 0
     })
 }
-module.exports = {getCheck,deleteCheck, bookingAppointMent, getMyAppointment, deleteBookingsAppointment, getMyPatients, getMyPreviousPatients, allBookings }
+
+let insertPre = async (req, res) => {
+    let id = req.body.id;
+    let info = req.body.info;
+
+    await insertPreInfo(id, info);
+
+    return res.status(200).json({
+        errCode: 0
+    })
+}
+module.exports = {insertPre,getCheck,deleteCheck, bookingAppointMent, getMyAppointment, deleteBookingsAppointment, getMyPatients, getMyPreviousPatients, allBookings }
